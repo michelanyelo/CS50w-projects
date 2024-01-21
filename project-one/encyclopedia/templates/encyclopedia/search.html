@@ -1,0 +1,26 @@
+{% extends 'encyclopedia/layout.html' %}
+
+{% block title %}
+  <!-- set the title for the search page -->
+  Encyclopedia - Search
+{% endblock %}
+
+{% block body %}
+  <h1>Search</h1>
+
+  {% if similar %}
+    <!-- if there are similar entries, display them in an unordered list -->
+    <ul>
+      {% for entry in similar %}
+        {# index page: added anchor tag for a specific entry #}
+        <li>
+          <a href="{% url 'entry' title=entry %}">{{ entry }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <!-- if no similar entries are found, display a message and an image -->
+    <p>No matching entries found for "{{ query }}".</p>
+    <img src="https://img.freepik.com/premium-vector/search-result-find-illustration_585024-17.jpg" alt="No matching results" />
+  {% endif %}
+{% endblock %}
