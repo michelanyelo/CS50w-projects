@@ -1,0 +1,94 @@
+body {
+    padding: 10px;
+}
+
+#btn_group {
+    margin-top: auto;
+}
+
+#btn_watchlist {
+    margin-top: 10px;
+}
+
+.body-listing {
+    background-color: #E9ECF2;
+}
+
+.listing-container {
+    background-color: white;
+}
+
+.listing-albumcover {
+    max-width: 450px;
+    align-self: center;
+}
+
+.listing-data {
+    padding: 0px 60px;
+}
+
+.listing-description,
+.listing-seller {
+    font-size: 15px;
+}
+
+.listing-price {
+    color: #DC206F;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.listing-active,
+.listing-expired,
+.listing-delivery {
+    font-size: 17px;
+}
+
+.fa-circle-check,
+.fa-circle-xmark,
+.fa-globe {
+    font-size: 24px;
+}
+
+.listing-active,
+.fa-circle-check {
+    color: green;
+}
+
+.listing-expired,
+.fa-circle-xmark {
+    color: #DC206F;
+}
+
+.listing-delivery{
+    font-weight: 500;
+}
+
+.input-bid {
+    width: 320px;
+}
+
+.btn-add-watchlist,
+.btn-remove-watchlist {
+    text-decoration: none;
+}
+
+.btn-remove-watchlist,
+.btn-remove-watchlist:hover {
+    color: #DC206F;
+}
+
+.btn-add-watchlist,
+.btn-add-watchlist:hover {
+    color: green;
+}
+
+.fa-globe,
+.listing-delivery {
+    color: black;
+}
+
+.btn-placebid{
+    background-color: #0B92A7 !important;
+    border-color: #0B92A7 !important;
+}

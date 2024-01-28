@@ -1,0 +1,33 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+  <h2>My Watchlist</h2>
+  <br />
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    {% if listings %}
+      {% for listing in listings %}
+        <div class="col card-group">
+          <div class="card mb-3" style="max-width: 540px;">
+            <img src="{{ listing.image_url }}" class="img-fluid rounded-start" alt="Album Cover" style="max-width: 320px; align-self: center;" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ listing.title }}</h5>
+              <p class="card-text" style="color: #ff3a3a; font-weight: 600;">${{ listing.bid_current }} CLP</p>
+              <p class="card-text">{{ listing.description }}</p>
+              <p class="card-text">
+                <small class="text-body-secondary">Category: <a href="{% url 'category_listings' listing.category.slug %}">{{ listing.category }}</a></small>
+              </p>
+              <div class="btn-group-vertical" role="group" aria-label="Vertical button group" id="btn_group">
+                <a href="{% url 'listing' listing.id %}" class="btn btn-primary" id="btn_bid">View details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="alert alert-warning mx-2" role="alert">
+        <p>No items found in your Watchlist.</p>
+        <span><a href="{% url 'index' %}">Back to home</a></span>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
