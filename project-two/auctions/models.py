@@ -22,11 +22,26 @@ class Category(models.Model):
         return self.name
 
 
+class Bid(models.Model):
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing = models.ForeignKey('Listing', on_delete=models.CASCADE, related_name="bids")
+    amount = models.FloatField()
+
+    def __str__(self):
+        return f"{self.bidder.username} bids ${self.amount} on {self.listing.title}"
+
+
 class Listing(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
     image_url = models.CharField(max_length=1000)
-    bid_current = models.FloatField(default=0)
+    bid = models.ForeignKey(
+        Bid,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name="listings"
+    )
     is_active = models.BooleanField(default=False, blank=True)
     seller = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True, related_name="seller"
@@ -50,15 +65,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.author} comment on {self.listing}"
-
-
-class Bid(models.Model):
-    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
-    amount = models.FloatField()
-
-    def __str__(self):
-        return f"{self.bidder.username} bids ${self.amount} on {self.listing.title}"
 
 
 class UserWatchlist(models.Model):

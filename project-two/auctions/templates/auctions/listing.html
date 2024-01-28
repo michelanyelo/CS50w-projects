@@ -32,8 +32,11 @@
         <div class="col-xl-4 col-md-12">
           <div class="card h-100">
             <div class="card-body">
-              <p class="card-text listing-price mt-3">CLP ${{ listing.bid_current }}</p>
-
+              {% if listing.bid %}
+                <p class="card-text listing-price">${{ listing.bids.last.amount }} CLP</p>
+              {% else %}
+                <p class="card-text listing-price">No bids yet</p>
+              {% endif %}
               <div class="d-flex align-items-center mt-5">
                 <i class="fa-solid fa-globe"></i>
                 <p class="mb-0 ms-1 listing-delivery">Free delivery worldwide</p>

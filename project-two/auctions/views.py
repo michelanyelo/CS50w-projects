@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from .models import Comment, User, Category, Listing, UserWatchlist, Bid
+from .models import User, Category, Bid, Listing, UserWatchlist, Comment
 
 
 def get_filtered_listings(category_slug=None):
@@ -49,7 +49,8 @@ def create_listing(request):
         title = request.POST["title"]
         description = request.POST["description"]
         image_url = request.POST["image_url"]
-        price = float(request.POST["price"])
+        # Cambiado de price a starting_bid
+        starting_bid = float(request.POST["price"])
         category_id = request.POST["category"]
         category = Category.objects.get(pk=category_id)
         active = request.POST.get("active")
@@ -60,12 +61,22 @@ def create_listing(request):
             title=title,
             description=description,
             image_url=image_url,
-            bid_current=float(price),
             is_active=is_active,
             seller=seller,
             category=category,
         )
         # saving to db
+        new_listing.save()
+
+        # new bid for this listing
+        bid_amount = starting_bid
+        new_bid = Bid(
+            bidder=request.user,
+            listing=new_listing,
+            amount=bid_amount
+        )
+        new_bid.save()
+        new_listing.bid = new_bid
         new_listing.save()
         # redirect to index html
         return HttpResponseRedirect(reverse(index))
@@ -74,20 +85,20 @@ def create_listing(request):
 
 # ---- start display individual listing ----
 def listing_by_id(request, listing_id):
-    listing = Listing.objects.get(id=listing_id)
+    listing = Listing.objects.select_related(
+        'seller', 'category').get(id=listing_id)
     all_comments = Comment.objects.filter(listing=listing)
-    bid = Bid.objects.filter(listing=listing).last()
     user = request.user
     if user.is_authenticated:
         in_watchlist = UserWatchlist.objects.filter(
             user=user, listing=listing).exists()
     else:
         in_watchlist = False
+
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "watchlist": in_watchlist,
         "comments": all_comments,
-        "bid": bid
     })
 # ---- end display individual listing ----
 
@@ -194,12 +205,13 @@ def add_bid(request, listing_id):
             in_watchlist = False
 
         # check if the bid amount is greater than the current bid on the listing
-        if amount > listing.bid_current:
+        if listing.bid and amount > listing.bid.amount:
             # create a new bid object
-            bid = Bid(listing=listing, bidder=bidder, amount=amount)
-            bid.save()
-            # update the current bid amount on the listing
-            listing.bid_current = amount
+            new_bid = Bid.objects.create(
+                bidder=bidder, listing=listing, amount=amount)
+            new_bid.save()
+            # update the current bid reference in the listing
+            listing.bid = new_bid
             listing.save()
             # render the listing page with relevant information
             return render(request, 'auctions/listing.html', {
