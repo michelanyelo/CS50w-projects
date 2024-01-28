@@ -32,8 +32,15 @@
         <div class="col-xl-4 col-md-12">
           <div class="card h-100">
             <div class="card-body">
-              {% if listing.bid %}
-                <p class="card-text listing-price">${{ listing.bids.last.amount }} CLP</p>
+              {% if listing.bids and listing.bids.last.amount > 0 %}
+                <p class="card-text listing-price">${{ listing.bids.last.amount }} CLP (Highest Bid)</p>
+                <div class="overflow-auto" style="max-height: 150px;">
+                  {% for bid in listing.bids.all %}
+                    {% if not forloop.last %}
+                      <p class="card-text listing-previous-bids">Previous bid:${{ bid.amount }} CLP</p>
+                    {% endif %}
+                  {% endfor %}
+                </div>
               {% else %}
                 <p class="card-text listing-price">No bids yet</p>
               {% endif %}

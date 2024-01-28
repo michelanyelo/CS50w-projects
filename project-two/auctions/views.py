@@ -85,9 +85,9 @@ def create_listing(request):
 
 # ---- start display individual listing ----
 def listing_by_id(request, listing_id):
-    listing = Listing.objects.select_related(
-        'seller', 'category').get(id=listing_id)
+    listing = Listing.objects.get(id=listing_id)
     all_comments = Comment.objects.filter(listing=listing)
+
     user = request.user
     if user.is_authenticated:
         in_watchlist = UserWatchlist.objects.filter(

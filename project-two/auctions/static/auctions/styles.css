@@ -28,7 +28,8 @@ body {
 }
 
 .listing-description,
-.listing-seller {
+.listing-seller,
+.listing-previous-bids {
     font-size: 15px;
 }
 
