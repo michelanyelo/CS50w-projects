@@ -32,9 +32,7 @@
         <div class="col-xl-4 col-md-12">
           <div class="card h-100">
             <div class="card-body">
-              <p class="card-text listing-price mt-3">
-                CLP ${{ listing.bid_current }}
-              </p>
+              <p class="card-text listing-price mt-3">CLP ${{ listing.bid_current }}</p>
 
               <div class="d-flex align-items-center mt-5">
                 <i class="fa-solid fa-globe"></i>
@@ -83,6 +81,10 @@
                     {% csrf_token %}
                     <button class="btn btn-danger mt-5" type="submit">Close Auction</button>
                   </form>
+                {% endif %}
+
+                {% if error_message %}
+                  <div class="alert alert-danger mt-3" role="alert">{{ error_message }}</div>
                 {% endif %}
               </form>
             </div>
@@ -149,9 +151,5 @@
         </div>
       </div>
     </div>
-
-    {% if error_message %}
-      <div class="alert alert-danger mt-3" role="alert">{{ error_message }}</div>
-    {% endif %}
   </body>
 {% endblock %}

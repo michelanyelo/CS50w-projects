@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-
 from .models import Comment, User, Category, Listing, UserWatchlist, Bid
 
 
@@ -53,12 +52,8 @@ def create_listing(request):
         price = float(request.POST["price"])
         category_id = request.POST["category"]
         category = Category.objects.get(pk=category_id)
-        active = request.POST["active"]
-        # convert 'active' to boolean
-        if active == "on":
-            is_active = True
-        else:
-            is_active = False
+        active = request.POST.get("active")
+        is_active = active is not None
         seller = request.user
         # creating new listing
         new_listing = Listing(
@@ -112,6 +107,7 @@ def remove_watchlist(request, listing_id):
         user_watchlist_entry.delete()
     # redirect back to the listing page
     return HttpResponseRedirect(reverse('listing', args=(listing_id,)))
+
 
 @login_required
 def add_watchlist(request, listing_id):
@@ -237,7 +233,7 @@ def close_auction(request, listing_id):
         in_watchlist = False
 
     # check if the user has placed a bid for the listing
-    if Bid.objects.filter(bidder=user, listing=listing).exists():
+    if Bid.objects.filter(listing=listing).exists():
         # retrieve the last bid for the listing
         bid = Bid.objects.filter(listing=listing).last()
         # check if the bid amount is greater than 0
