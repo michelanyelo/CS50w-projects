@@ -64,7 +64,7 @@
                   {% csrf_token %}
                   <div class="input-group mb-3 input-bid mt-5">
                     <span class="input-group-text">Bid:</span>
-                    <input type="number" class="form-control" name="bid_amount" min="{{ listing.bid_current }}" required />
+                    <input type="number" class="form-control" name="bid_amount" min="{{ listing.bids.last.amount }}" required />
                     <button class="btn btn-primary btn-placebid" type="submit">Place Bid</button>
                   </div>
                 </form>
@@ -77,13 +77,13 @@
               <form action="{% url 'close_auction' listing.id %}" method="POST">
                 {% csrf_token %}
                 {% if not listing.is_active %}
-                  {% if bid and user == bid.bidder %}
+                  {% if listing.bids and user == listing.bids.last.bidder %}
                     <div class="alert alert-success mt-5" role="alert">
-                      Congrats 🎉🥳 The auction has been won by <strong>YOU</strong> with a bid of ${{ bid.amount }}.
+                      Congrats 🎉🥳 The auction has been won by <strong>YOU</strong> with a bid of ${{ listing.bids.last.amount }}.
                     </div>
-                  {% elif bid and user != bid.bidder %}
+                  {% elif listing.bids and user != listing.bids.last.bidder %}
                     <div class="alert alert-warning mt-5" role="alert">
-                      The auction has been won by <strong>{{ bid.bidder }}</strong> with a bid of ${{ bid.amount }}.
+                      The auction has been won by <strong>{{ listing.bids.last.bidder }}</strong> with a bid of ${{ listing.bids.last.amount }}.
                     </div>
                   {% endif %}
                 {% elif user == listing.seller and listing.is_active %}
