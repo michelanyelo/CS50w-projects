@@ -31,7 +31,7 @@ For more information about the CS50w course, visit [CS50w - Web Programming with
 
 [View project](https://github.com/michelanyelo/cs50w-projects/tree/main/project-two)
 
-### 4. Final Project: [To be defined]
+### 4. Project 3: [To be defined]
 
 - **Description:** [Brief description of the final project, if available.]
 - **Technologies used:** [Technologies used in the final project, if available.]
