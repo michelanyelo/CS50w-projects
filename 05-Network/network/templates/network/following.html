@@ -1,0 +1,89 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+  <div class="container text-center" id="feed_container">
+    <fieldset class="mx-auto my-3" id="feed_fieldset">
+      <legend>Following Feed</legend>
+    </fieldset>
+
+    <div id="all_posts" class="mx-auto">
+      {% for post in posts_page %}
+        <div class="row mb-3">
+          <div class="col mx-auto">
+            <div class="card mb-3" id="card_index">
+              <div class="card-body">
+                {% if post.user.avatar %}
+                  <img src="{{ post.user.avatar.url }}" alt="Avatar" width="50" height="50" class="post_avatar" />
+                {% else %}
+                  <img src="../media/avatars/notfound.png" alt="Avatar" width="50" height="50" class="post_avatar" />
+                {% endif %}
+                <h6 class="card-title"><a href="{% url 'profile' user_id=post.user.id %}">@{{ post.user.username }}</a> said:</h6>
+                <p class="card-text" id="postContent_{{ post.id }}">{{ post.content }}</p>
+                <p class="card-text">
+                  <small class="text-muted" id="postDate_{{ post.id }}">{{ post.date }}</small>
+                </p>
+                {% if user.is_authenticated %}
+                  {% if user == post.user %}
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editPost_{{ post.id }}">Edit Post &ensp; <i class="fa-regular fa-pen-to-square"></i></button>
+
+                    <div class="modal fade" id="editPost_{{ post.id }}" tabindex="-1" aria-labelledby="editPost_{{ post.id }}_label" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editPostLabel">Edit Post From @{{post.user}}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <textarea name="editPost_content" id="textarea_{{ post.id }}" cols="30" rows="10" class="form-control">{{post.content}}</textarea>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="submit_changes({{ post.id }})">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                    <p class="card-text">
+                      <small class="text-muted">
+                        <button type="button" id="like_{{ post.id }}" class="btn btn-link like" onclick="likeHandler({{ post.id }}, {{ liked_posts_ids }})">
+                          {% if post.id in liked_posts_ids %}
+                            <i class="fa-solid fa-thumbs-down"></i> Dislike
+                          {% else %}
+                            <i class="fa-solid fa-thumbs-up"></i> Like
+                          {% endif %}
+                        </button>
+                      </small>
+                    </p>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-center" id="paginationNav">
+      <ul class="pagination">
+        {% if posts_page.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts_page.previous_page_number }}" id="previous_page_link">Previous</a>
+          </li>
+        {% endif %}
+
+        {% for page_number in posts_page.paginator.page_range %}
+          <li class="page-item {% if posts_page.number == page_number %}active{% endif %}">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+          </li>
+        {% endfor %}
+
+        {% if posts_page.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts_page.next_page_number }}" id="next_page_link">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endblock %}
