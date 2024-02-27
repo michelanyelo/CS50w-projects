@@ -15,28 +15,28 @@ For more information about the CS50w course, visit [CS50w - Web Programming with
 - **Description:** - **Description:** The Google Search project is a web application that simulates the functionality of Google Search. Users can enter a query, receive search results, and view summaries of relevant pages.
 - **Technologies used:** HTML, CSS.
 
-[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/project-zero)
+[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/01-Google%20Search)
 
-### 2. Project 1: Books
+### 2. Project 1: Wiki
 
 - **Description:** - **Description:** This project involves creating a web encyclopedia similar to Wikipedia. Users can view a list of existing entries, search for specific entries, create new entries, and edit existing ones using Markdown format.
 - **Technologies used:** HTML, CSS, Python, Markdown.
 
-[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/project-one)
+[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/02-Wiki)
 
 ### 3. Project 2: Commerce
 
 - **Description:** Commerce is an e-commerce application that allows users to register, log in, add products to the shopping cart, place orders, and view their bids history.
-- **Technologies used:** HTML, CSS, JavaScript, Python (Django), PostgreSQL.
+- **Technologies used:** HTML, CSS, JavaScript, Python (Django).
 
-[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/project-two)
+[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/03-Commerce)
 
-### 4. Project 3: [To be defined]
+### 4. Project 3: Email
 
-- **Description:** [Brief description of the final project, if available.]
-- **Technologies used:** [Technologies used in the final project, if available.]
+- **Description:** The Email project is a web application that replicates the functionality of an email client. Users can send and receive emails, organize them into folders, compose new emails, reply to existing ones, and manage their inbox.
+- **Technologies used:** HTML, CSS, JavaScript, Python (Django), SQL (for database management).
 
-[View project](proyectofinal/)
+[View project](https://github.com/michelanyelo/cs50w-projects/tree/main/04-Mail)
 
 ## Additional Resources
 
