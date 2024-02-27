@@ -1,0 +1,126 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9ebee;
+    margin: 0;
+    padding: 0;
+}
+
+/* START INDEX CSS */
+
+
+#feed_container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#new_post_container,
+#all_posts {
+    padding: 16px;
+}
+
+#new_post_button {
+    background-color: #4267b2 !important;
+    border-color: #4267b2;
+    color: #ffffff !important;
+}
+
+.card {
+    border: none;
+}
+
+.post_avatar {
+    border-radius: 50%;
+}
+
+#card_index{
+    max-width: 500px;
+    margin: auto;
+    border: 8px solid #fafafa;
+    box-shadow: 1px 1px 20px 0px #4267b28c;
+}
+
+/* END INDEX CSS */
+
+
+
+/* START PROFILE CSS */
+#mainContainer {
+    margin: 0 auto;
+    width: 80%;
+}
+
+#personalInfoColumn .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+#personalInfoCardBody {
+    padding: 10px;
+}
+
+#personalInfoCardBody .card-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+#personalInfoCardBody .card-text {
+    font-size: 14px;
+}
+
+#postsColumn .post-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 60px;
+    height: 60px;
+}
+
+.post-avatar {
+    width: 40px;
+    height: 40px;
+}
+
+#paginationNav .pagination {
+    justify-content: center;
+}
+
+#paginationNav .page-item.active .page-link {
+    background-color: #4267b2;
+    border-color: #4267b2;
+}
+
+/* END PROFILE CSS */
+
+/* START FOLLOW UNFOLLOW CSS */
+.follow-button {
+    background-color: #1877f2;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.follow-button:hover {
+    background-color: #1659a0;
+}
+
+.unfollow-button {
+    background-color: #e4e6eb;
+    color: #1c1e21;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.unfollow-button:hover {
+    background-color: #d4d6db;
+}
+
+/* END FOLLOW UNFOLLOW CSS */

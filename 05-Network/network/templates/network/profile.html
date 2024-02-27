@@ -1,0 +1,114 @@
+{% extends 'network/layout.html' %}
+
+{% block body %}
+  <div class="container" id="mainContainer">
+    <div class="row mt-5" id="mainRow">
+      <div class="col-md-3" id="personalInfoColumn">
+        <div class="card mb-4 text-center" id="personalInfoCard">
+          <div class="card-body" id="personalInfoCardBody">
+            {% if current_user.avatar %}
+              <img src="{{ current_user.avatar.url }}" alt="Avatar" class="rounded-circle mr-2 profile-pic" />
+            {% else %}
+              <img src="../media/avatars/notfound.png" alt="Avatar" class="rounded-circle mr-2 profile-pic" />
+            {% endif %}
+            <p class="card-text">
+              <b>@{{ username }}</b>
+            </p>
+            <p class="card-text">
+              <b>Friends:</b> {{ followers.count }}
+            </p>
+            <p class="card-text">
+              <b>Following:</b> {{ following.count }}
+            </p>
+            {% if user.is_authenticated %}
+              {% if user != current_user %}
+                {% if is_following %}
+                  <form action="{% url 'unfollow' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="userunfollow" value="{{ current_user.username }}" />
+                    <input class="unfollow-button" type="submit" value="Unfollow" />
+                  </form>
+                {% else %}
+                  <form action="{% url 'follow' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="userfollow" value="{{ current_user.username }}" />
+                    <input class="follow-button" type="submit" value="Follow" />
+                  </form>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6" id="postsColumn">
+        <div id="all_my_posts">
+          {% for post in posts_page %}
+            <div class="card mb-3 text-center post-card">
+              <div class="card-body post-card-body">
+                {% if post.user.avatar %}
+                  <img src="{{ post.user.avatar.url }}" alt="Avatar" class="rounded-circle mr-2 post-avatar" />
+                {% else %}
+                  <img src="../media/avatars/notfound.png" alt="Avatar" class="rounded-circle mr-2 post-avatar" />
+                {% endif %}
+                <h5 class="card-title mb-0 post-user">@{{ post.user }}</h5>
+                <p class="card-text post-content" id="postContent_{{ post.id }}">{{ post.content }}</p>
+                <p class="card-text post-date">
+                  <small class="text-muted">{{ post.date }}</small>
+                </p>
+                {% if user == post.user %}
+                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editPost_{{ post.id }}">Edit Post &ensp; <i class="fa-regular fa-pen-to-square"></i></button>
+
+                  <div class="modal fade" id="editPost_{{ post.id }}" tabindex="-1" aria-labelledby="editPost_{{ post.id }}_label" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="editPostLabel">Edit Post From @{{ post.user }}</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <textarea name="editPost_content" id="textarea_{{ post.id }}" cols="30" rows="10" class="form-control">{{ post.content }}</textarea>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" onclick="submit_changes({{ post.id }})">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Columna para contenido adicional -->
+      <div class="col-md-3" id="additionalContentColumn">
+        <!-- Aquí puedes agregar más contenido, como amigos, fotos, etc. -->
+      </div>
+    </div>
+
+    <nav aria-label="Page navigation" class="d-flex justify-content-center" id="paginationNav">
+      <ul class="pagination">
+        {% if posts_page.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts_page.previous_page_number }}">Previous</a>
+          </li>
+        {% endif %}
+
+        {% for page_number in posts_page.paginator.page_range %}
+          <li class="page-item {% if posts_page.number == page_number %}active{% endif %}">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+          </li>
+        {% endfor %}
+
+        {% if posts_page.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ posts_page.next_page_number }}">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endblock %}
